@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "164146556786",
+    "project_id": "ganatalk-4c46a",
+    "storage_bucket": "ganatalk-4c46a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:164146556786:android:7b2852e9d7379c93c837eb",
+        "android_client_info": {
+          "package_name": "com.polared.ganatalk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "164146556786-7uqaqgsb1nosldi3fbbjnvdhugr33ke8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.polared.ganatalk",
+            "certificate_hash": "267af72bed21d32b7c6b0d0ab2290ac44fe8aae5"
+          }
+        },
+        {
+          "client_id": "164146556786-nqbpbh5kqn6fdgjm2jm9l7hf82vqa3dd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLPGUycVUIFCzIqjEIdF3AFe90vjWU4EA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "164146556786-nqbpbh5kqn6fdgjm2jm9l7hf82vqa3dd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
