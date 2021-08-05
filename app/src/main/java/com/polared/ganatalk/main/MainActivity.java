@@ -14,6 +14,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.polared.ganatalk.R;
 import com.polared.ganatalk.base.BaseActivity;
 import com.polared.ganatalk.base.BaseFragment;
+import com.polared.ganatalk.main.friend.FriendsFragment;
 
 import java.util.ArrayList;
 

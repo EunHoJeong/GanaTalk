@@ -1,6 +1,7 @@
 package com.polared.ganatalk.firebase;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,6 +13,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.polared.ganatalk.base.BaseActivity;
 import com.polared.ganatalk.common.ActivityOpener;
 import com.polared.ganatalk.common.DialogPopup;
@@ -19,22 +25,31 @@ import com.polared.ganatalk.common.DialogPopup;
 public class FireBaseManager {
     private static FireBaseManager fireBaseManager;
     private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
 
     public static FireBaseManager getInstance() {
         if (fireBaseManager == null) {
-            return new FireBaseManager();
+            fireBaseManager = new FireBaseManager();
+            return fireBaseManager;
         }
         return null;
     }
 
     public FireBaseManager(){
         mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
     }
 
-    public FirebaseAuth getmAuth() {
+    public FirebaseAuth getAuth() {
         return mAuth;
     }
 
+    /**
+     * 로그인
+     * @param activity
+     * @param email
+     * @param pw
+     */
     public void signIn(Activity activity, String email, String pw) {
         mAuth.signInWithEmailAndPassword(email, pw)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
@@ -55,6 +70,11 @@ public class FireBaseManager {
                 });
     }
 
+    /**
+     * 비밀번호 찾기
+     * @param activity
+     * @param email
+     */
     public void findPassword(Activity activity, String email) {
         mAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(activity, new OnCompleteListener<Void>() {
@@ -71,6 +91,13 @@ public class FireBaseManager {
                 });
     }
 
+
+    /**
+     * 회원가입
+     * @param activity
+     * @param email
+     * @param pw
+     */
     public void signUp(FragmentActivity activity, String email, String pw) {
         mAuth.createUserWithEmailAndPassword(email, pw)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
@@ -97,4 +124,29 @@ public class FireBaseManager {
                     }
                 });
     }
+
+    public void getFriends(Activity activity, String email) {
+        DatabaseReference myRef = database.getReference("Users")
+                .child(email).child("friends");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void getFriendInformation(Activity activity, String email) {
+
+    }
+
+
+
+
 }
