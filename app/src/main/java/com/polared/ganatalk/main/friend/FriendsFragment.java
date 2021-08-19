@@ -11,10 +11,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.polared.ganatalk.R;
 import com.polared.ganatalk.base.BaseActivity;
 import com.polared.ganatalk.base.BaseFragment;
 import com.polared.ganatalk.base.Observer;
+import com.polared.ganatalk.firebase.FireBaseManager;
 
 import java.util.ArrayList;
 
@@ -23,6 +25,7 @@ public class FriendsFragment extends BaseFragment {
 
     private ImageView profileIcon;
     private TextView myNicName;
+    private TextView myStatus;
     private RecyclerView friendRecyclerView;
     private FriendListAdapter mAdapter;
 
@@ -46,11 +49,17 @@ public class FriendsFragment extends BaseFragment {
 
         setViewModel();
 
+        initMyInfo();
+
         initRecyclerView();
 
 
 
         return view;
+    }
+
+    private void initMyInfo() {
+        FireBaseManager.getInstance().getMyInfo(getActivity());
     }
 
     private void setViewModel() {
@@ -59,7 +68,19 @@ public class FriendsFragment extends BaseFragment {
         Observer<FriendResponseDTO> observer = new Observer<FriendResponseDTO>(){
             @Override
             public void onChanged(FriendResponseDTO friendResponseDTO) {
-                friendList.add(friendResponseDTO);
+                myNicName.setText(friendResponseDTO.getNicName());
+
+                if (!friendResponseDTO.getProfileStatus().equals("")) {
+                    myStatus.setVisibility(View.VISIBLE);
+                    myStatus.setText(friendResponseDTO.getProfileStatus());
+                }
+
+                if (!friendResponseDTO.getProfileImage().equals("")) {
+                    Glide.with(getContext())
+                            .load(friendResponseDTO.getProfileImage())
+                            .into(profileIcon);
+                }
+
             }
         };
         ((BaseActivity)getActivity()).baseViewModel.getCurrentName().observeForever(observer);
@@ -76,6 +97,7 @@ public class FriendsFragment extends BaseFragment {
 
         profileIcon = (ImageView) view.findViewById(R.id.profile_icon);
         myNicName = (TextView) view.findViewById(R.id.my_nicName);
+        myStatus = (TextView) view.findViewById(R.id.my_status);
         friendRecyclerView = (RecyclerView) view.findViewById(R.id.friend_list);
     }
 

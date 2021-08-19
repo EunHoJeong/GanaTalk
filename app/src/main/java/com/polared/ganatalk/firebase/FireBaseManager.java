@@ -21,6 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.polared.ganatalk.base.BaseActivity;
 import com.polared.ganatalk.common.ActivityOpener;
 import com.polared.ganatalk.common.DialogPopup;
+import com.polared.ganatalk.common.GTUtils;
+import com.polared.ganatalk.main.friend.FriendResponseDTO;
 
 public class FireBaseManager {
     private static FireBaseManager fireBaseManager;
@@ -32,7 +34,7 @@ public class FireBaseManager {
             fireBaseManager = new FireBaseManager();
             return fireBaseManager;
         }
-        return null;
+        return fireBaseManager;
     }
 
     public FireBaseManager(){
@@ -123,6 +125,24 @@ public class FireBaseManager {
 
                     }
                 });
+    }
+
+    public void getMyInfo(Activity activity) {
+        DatabaseReference myRef = database.getReference("Users")
+                .child("gh888@navercom");
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                FriendResponseDTO friendResponseDTO = dataSnapshot.getValue(FriendResponseDTO.class);
+                ((BaseActivity)activity).baseViewModel.postValue(friendResponseDTO);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void getFriends(Activity activity, String email) {
